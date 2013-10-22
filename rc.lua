@@ -10,6 +10,7 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
+local vicious = require("vicious")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -37,15 +38,19 @@ end
 -- }}}
 
 -- {{{ Variable definitions
+-- useful path definitions
+home = os.getenv("HOME")
+confdir = home .. "/.config/awesome"
+themes = confdir .. "/themes"
+active_theme = themes .. "/niceandclean"
+--active_theme = themes .. "/blue-black-red-2"
+language = string.gsub(os.getenv("LANG"), ".utf8", "")
+
 -- Themes define colours, icons, and wallpapers
-
--- home path
-homedir = os.getenv("HOME") .. "/.config/awesome/"
-
-beautiful.init(homedir .. "themes/multicolor/theme.lua")
+beautiful.init(active_theme .. "/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "xterm"
+terminal = "sakura"
 editor = os.getenv("EDITOR") or "vi"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -56,7 +61,6 @@ editor_cmd = terminal .. " -e " .. editor
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 altkey = "Mod1"
-
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts =
 {
@@ -85,10 +89,13 @@ end
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
-tags = {}
+tags = {
+   names = { "1:terminal", "2:www", "3:mybox", "4:veritas", "5:virtual", "6:work", "7:work","8:work", "9:work" },
+   layout = { layouts[2], layouts[10], layouts[10], layouts[10], layouts[2], layouts[2], layouts[2], layouts[2], layouts[2] }
+}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+    tags[s] = awful.tag(tags.names, s, tags.layout)
 end
 -- }}}
 
@@ -114,6 +121,24 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- }}}
 
 -- {{{ Wibox
+-- awful.util
+local util = awful.util
+
+-- Colours
+coldef  = "</span>"
+white  = "<span color='#dddcff'>"
+gray = "<span color='#747474'>"
+-- Create volume widget
+volumewidget = wibox.widget.textbox()
+vicious.register(volumewidget, vicious.widgets.volume,
+function (widget, args)
+   if (args[2] ~= "♩" ) then
+      return gray .. "Vol " .. coldef .. white .. args[1] .. " " .. coldef
+   else
+      return gray .. "Vol " .. coldef .. white .. "mute " .. coldef
+   end
+end, 1, "Master")
+
 -- Create a textclock widget
 mytextclock = awful.widget.textclock()
 
@@ -194,6 +219,7 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
+    right_layout:add(volumewidget)
     right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
 
@@ -274,7 +300,25 @@ globalkeys = awful.util.table.join(
                   awful.util.getdir("cache") .. "/history_eval")
               end),
     -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end)
+    awful.key({ modkey }, "p", function() menubar.show() end),
+    -- Volume control
+    awful.key({ altkey }, "Up", function ()
+                                    awful.util.spawn("amixer set Master playback 1%+", false )
+                                    vicious.force({ volumewidget })
+                                end),
+    awful.key({ altkey }, "Down", function ()
+                                    awful.util.spawn("amixer set Master playback 1%-", false )
+                                    vicious.force({ volumewidget })
+                                                                                                                                                                                             end),
+                                                                                                                                                               awful.key({ altkey }, "m", function ()
+                                    awful.util.spawn("amixer set Master playback toggle", false )
+                                    vicious.force({ volumewidget })
+                                  end),
+    awful.key({ altkey, "Control" }, "m", function ()
+                                             awful.util.spawn("amixer set Master playback 100%", false )
+                                             vicious.force({ volumewidget })
+                                          end)
+--
 )
 
 clientkeys = awful.util.table.join(
@@ -435,4 +479,6 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+-- awful.util.spawn_with_shell("numlockx on")
+awful.util.spawn_with_shell("xcompmgr &")
 -- }}}
