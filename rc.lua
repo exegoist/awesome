@@ -59,7 +59,7 @@ editor_cmd = terminal .. " -e " .. editor
 -- If you do not like this or do not have such a key,
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
+modkey = "Mod1"
 altkey = "Mod1"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts =
@@ -90,7 +90,7 @@ end
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-   names = { "1:terminal", "2:www", "3:mybox", "4:veritas", "5:virtual", "6:work", "7:work","8:work", "9:work" },
+   names = { "1:term", "2:web", "3:wbox", "4:veritas", "5:remote", "6:remote", "7:term","8:term", "9:term" },
    layout = { layouts[2], layouts[10], layouts[10], layouts[10], layouts[2], layouts[2], layouts[2], layouts[2], layouts[2] }
 }
 for s = 1, screen.count() do
