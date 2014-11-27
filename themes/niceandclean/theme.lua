@@ -9,7 +9,7 @@ config        = awful.util.getdir("config")
 themes        = config .. "/themes"
 themename     = "/niceandclean"
 themedir = themes .. themename
-wallpaper    = themedir .. "/bridge001.png"
+wallpaper    = themedir .. "/bridge002.png"
 
 theme.wallpaper = wallpaper
 
