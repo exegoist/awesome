@@ -9,7 +9,7 @@ config        = awful.util.getdir("config")
 themes        = config .. "/themes"
 themename     = "/niceandclean"
 themedir = themes .. themename
-wallpaper    = themedir .. "/bridge002.png"
+wallpaper    = themedir .. "/tokyo001.png"
 
 theme.wallpaper = wallpaper
 
@@ -18,7 +18,7 @@ if awful.util.file_readable(config .. "/vain/init.lua") then
 end
 --}}}
 theme.tasklist_disable_icon = true
-theme.font          = "sans 8"
+theme.font          = "sans 9"
 
 theme.bg_normal     = "#222222"
 theme.bg_focus      = "#d8d8d8"
@@ -30,7 +30,7 @@ theme.fg_focus      = "#000000"
 theme.fg_urgent     = "#ffffff"
 theme.fg_minimize   = "#ffffff"
 
-theme.border_width  = "2"
+theme.border_width  = "3"
 theme.border_normal = "#747474"
 --theme.border_focus  = "#535d6c"
 theme.border_marked = "#91231c"
@@ -47,6 +47,7 @@ theme.border_focus  = "#ce2c51"
 --theme.taglist_bg_focus = "#ff0000"
 
 -- Display the taglist squares
+theme.tooltip_border_width = "3"
 theme.taglist_squares_sel = themedir .. "/taglist/squarefw.png"
 theme.taglist_squares_unsel = themedir .. "/taglist/squarew.png"
 
@@ -58,7 +59,8 @@ theme.tasklist_floating_icon = themedir .. "/tasklist/floatingw_grey.png"
 theme.menu_submenu_icon = themedir .. "/submenu.png"
 theme.menu_height = "15"
 theme.menu_width  = "110"
-theme.menu_border_width = "0"
+theme.menu_border_width = "1"
+theme.menu_border_color = "#ce2c51"
 
 -- You can add as many variables as
 -- you wish and access them by using

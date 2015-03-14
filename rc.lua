@@ -50,7 +50,7 @@ language = string.gsub(os.getenv("LANG"), ".utf8", "")
 beautiful.init(active_theme .. "/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "sakura"
+terminal = "urxvt"
 editor = os.getenv("EDITOR") or "vi"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -90,8 +90,8 @@ end
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-   names = { "1:term", "2:web", "3:wbox", "4:veritas", "5:remote", "6:remote", "7:term","8:term", "9:term" },
-   layout = { layouts[2], layouts[10], layouts[10], layouts[10], layouts[2], layouts[2], layouts[2], layouts[2], layouts[2] }
+   names = { "1: Term", "2: Web", "3: Wbox", "4: Veritas", "5: Remote", "6: Remote", "7: Term","8: Term", "9: Term" },
+   layout = { layouts[1], layouts[10], layouts[10], layouts[10], layouts[10], layouts[10], layouts[1], layouts[1], layouts[1] }
 }
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
